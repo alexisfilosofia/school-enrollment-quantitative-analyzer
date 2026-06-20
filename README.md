@@ -4,6 +4,10 @@ Streamlit application for interactive quantitative analysis of school enrollment
 
 The Streamlit interface is fully in Spanish so it can be used naturally by educational institutions and Spanish-speaking stakeholders.
 
+## Live app
+
+Streamlit app: [https://school-enrollment-quantitative-analyzer-e27746dqfudiegt27szbez.streamlit.app/](https://school-enrollment-quantitative-analyzer-e27746dqfudiegt27szbez.streamlit.app/)
+
 ## Objective
 
 This project helps transform institutional enrollment spreadsheets into clear, reproducible quantitative outputs. It supports CSV and Excel uploads, detects common enrollment columns, cleans basic formatting issues, summarizes enrollment by year and course, analyzes age distributions, and exports cleaned data and analysis tables.
@@ -92,7 +96,8 @@ This repository does not contain real student data. The included sample dataset 
 
 ## Deployment
 
-A future deployment can be published on Streamlit Cloud after the repository is pushed to GitHub.
+The public demo is deployed on Streamlit Cloud:
+[https://school-enrollment-quantitative-analyzer-e27746dqfudiegt27szbez.streamlit.app/](https://school-enrollment-quantitative-analyzer-e27746dqfudiegt27szbez.streamlit.app/)
 
 ## Portfolio connection
 
