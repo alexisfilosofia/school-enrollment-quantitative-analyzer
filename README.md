@@ -2,7 +2,9 @@
 
 Streamlit application for interactive quantitative analysis of school enrollment data. The app is designed as a privacy-safe portfolio project inspired by a quantitative educational analysis notebook, with file upload, basic cleaning, exploratory analysis, descriptive statistics, enrollment summaries, cross-tabulations, visual indicators, and exportable outputs.
 
-The Streamlit interface is fully in Spanish so it can be used naturally by educational institutions and Spanish-speaking stakeholders.
+The Streamlit app supports English and Spanish through a sidebar language selector.
+
+Esta app de Streamlit permite alternar entre español e inglés desde la barra lateral.
 
 ## Live app
 
@@ -24,6 +26,7 @@ This project helps transform institutional enrollment spreadsheets into clear, r
 - Generate simple cross-tabulations such as year by course, course by age range, and year by gender.
 - Export cleaned data and analysis tables as CSV files.
 - Export a ZIP archive with the main outputs.
+- Switch the interface between Spanish and English without duplicating the app.
 - Run automated tests with pytest and GitHub Actions.
 
 ## Technical stack
@@ -51,12 +54,14 @@ school-enrollment-quantitative-analyzer/
 │   ├── data_cleaning.py
 │   ├── enrollment_analysis.py
 │   ├── eda.py
+│   ├── translations.py
 │   ├── visualization.py
 │   └── export_utils.py
 └── tests/
     ├── test_data_cleaning.py
     ├── test_enrollment_analysis.py
-    └── test_eda.py
+    ├── test_eda.py
+    └── test_translations.py
 ```
 
 ## Run locally

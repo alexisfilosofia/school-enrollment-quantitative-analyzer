@@ -114,12 +114,15 @@ def test_valid_categorical_columns_excludes_high_cardinality():
 
 def test_valid_categorical_columns_respects_max_unique():
     """Test that columns with > 50 unique values are excluded."""
-    data = {f"val_{i}": str(i) for i in range(60)}
-    df = pd.DataFrame(data)
-    df["course"] = ["A", "B"] * 30
-    
+    df = pd.DataFrame(
+        {
+            "course": ["A", "B"] * 30,
+            "almost_unique": [f"val_{i}" for i in range(60)],
+        }
+    )
+
     valid_cols = get_valid_categorical_columns(df)
-    
+
     # Only course should be included
     assert "course" in valid_cols
     # High-cardinality columns should be excluded

@@ -30,6 +30,16 @@ from src.enrollment_analysis import (
 )
 from src.export_utils import build_export_tables, build_zip_export, make_csv_download
 from src.io_utils import load_csv, load_multiple_files, read_excel_sheets
+from src.translations import (
+    DEFAULT_LANGUAGE,
+    SUPPORTED_LANGUAGES,
+    label_age_range,
+    label_column,
+    label_columns,
+    label_crosstab,
+    normalize_language,
+    t,
+)
 from src.visualization import prepare_age_distribution, prepare_bar_chart, prepare_line_chart
 
 
@@ -38,7 +48,7 @@ SAMPLE_DATA_PATH = BASE_DIR / "data" / "sample_enrollment_data.csv"
 
 
 st.set_page_config(
-    page_title="Analizador cuantitativo de matrícula escolar",
+    page_title="School Enrollment Quantitative Analyzer",
     page_icon="📊",
     layout="wide",
 )
@@ -105,39 +115,82 @@ def apply_page_styles() -> None:
     )
 
 
-def safe_dataframe(df: pd.DataFrame, **kwargs: object) -> None:
+def normalize_dataframe_for_display(data: object) -> object:
+    """Normalize display-only DataFrames before sending them to Streamlit."""
+
+    if not isinstance(data, pd.DataFrame):
+        return data
+
+    safe_df = data.copy()
+    safe_df.columns = [str(column) for column in safe_df.columns]
+    for column in safe_df.columns:
+        if safe_df[column].dtype == "object":
+            non_null = safe_df[column].dropna()
+            if non_null.map(type).nunique() > 1:
+                safe_df[column] = safe_df[column].astype(str)
+    return safe_df
+
+
+def safe_dataframe(data: object, **kwargs: object) -> None:
     """
     Safely render a DataFrame, normalizing types if needed.
-    
+
     Attempts to render with st.dataframe. If serialization fails,
     converts columns to safe types and retries.
     """
+    render_kwargs = dict(kwargs)
+    if "use_container_width" in render_kwargs and "width" not in render_kwargs:
+        render_kwargs["width"] = "stretch" if render_kwargs.pop("use_container_width") else "content"
+
+    display_data = normalize_dataframe_for_display(data)
     try:
-        st.dataframe(df, **kwargs)
+        st.dataframe(display_data, **render_kwargs)
     except (ValueError, TypeError, ImportError):
-        # Normalize DataFrame for Arrow serialization
-        safe_df = df.copy()
-        safe_df.columns = [str(c) for c in safe_df.columns]
-        for col in safe_df.columns:
-            if safe_df[col].dtype == "object":
-                safe_df[col] = safe_df[col].astype(str)
-        st.dataframe(safe_df, **kwargs)
+        if not isinstance(display_data, pd.DataFrame):
+            raise
+
+        fallback_df = display_data.copy()
+        for column in fallback_df.columns:
+            if fallback_df[column].dtype == "object":
+                fallback_df[column] = fallback_df[column].astype(str)
+        st.dataframe(fallback_df, **render_kwargs)
 
 
-def load_input_data() -> tuple[pd.DataFrame | None, str]:
-    """Render the Spanish sidebar and load data in memory."""
+def select_language() -> str:
+    """Render the sidebar language selector and persist its value."""
 
-    st.sidebar.header("Carga de archivos")
-    st.sidebar.caption("Subí archivos CSV o Excel, o usá el dataset sintético incluido.")
+    if "language" not in st.session_state:
+        st.session_state.language = DEFAULT_LANGUAGE
+
+    current_language = normalize_language(st.session_state.language)
+    selected_language = st.sidebar.selectbox(
+        t("sidebar_language", current_language),
+        options=list(SUPPORTED_LANGUAGES),
+        index=list(SUPPORTED_LANGUAGES).index(current_language),
+        format_func=lambda code: t(f"language_{code}", current_language),
+    )
+    if selected_language != current_language:
+        st.session_state.language = selected_language
+        st.rerun()
+
+    st.session_state.language = selected_language
+    return selected_language
+
+
+def load_input_data(lang: str) -> tuple[pd.DataFrame | None, str]:
+    """Render the sidebar and load data in memory."""
+
+    st.sidebar.header(t("sidebar_upload_header", lang))
+    st.sidebar.caption(t("sidebar_upload_caption", lang))
 
     uploaded_files = st.sidebar.file_uploader(
-        "Cargar archivos",
+        t("upload_files", lang),
         type=["csv", "xlsx", "xls"],
         accept_multiple_files=True,
-        help="Los archivos se procesan en memoria durante la sesión.",
+        help=t("upload_help", lang),
     )
-    use_sample = st.sidebar.checkbox("Usar dataset de ejemplo", value=True)
-    read_all_sheets = st.sidebar.checkbox("Leer todas las hojas de Excel", value=True)
+    use_sample = st.sidebar.checkbox(t("use_sample", lang), value=True)
+    read_all_sheets = st.sidebar.checkbox(t("read_all_sheets", lang), value=True)
 
     selected_sheet: str | None = None
     excel_files = [
@@ -149,9 +202,9 @@ def load_input_data() -> tuple[pd.DataFrame | None, str]:
             excel_files[0].seek(0)
             sheet_names = read_excel_sheets(excel_files[0])
             excel_files[0].seek(0)
-            selected_sheet = st.sidebar.selectbox("Seleccionar hoja", sheet_names)
+            selected_sheet = st.sidebar.selectbox(t("select_sheet", lang), sheet_names)
         except Exception as exc:  # pragma: no cover - defensive UI path
-            st.sidebar.warning(f"No se pudieron leer las hojas del Excel: {exc}")
+            st.sidebar.warning(t("excel_sheet_error", lang, error=exc))
 
     if uploaded_files:
         try:
@@ -162,27 +215,21 @@ def load_input_data() -> tuple[pd.DataFrame | None, str]:
                 read_all_sheets=read_all_sheets,
                 selected_sheet=selected_sheet,
             )
-            return data, "archivos cargados"
+            return data, t("source_uploaded_files", lang)
         except Exception as exc:
-            st.error(f"No se pudieron cargar los archivos: {exc}")
-            return None, "error"
+            st.error(t("load_files_error", lang, error=exc))
+            return None, t("source_error", lang)
 
     if use_sample:
-        return load_csv(SAMPLE_DATA_PATH), "dataset sintético de ejemplo"
+        return load_csv(SAMPLE_DATA_PATH), t("source_sample_dataset", lang)
 
-    return None, "sin datos"
+    return None, t("source_no_data", lang)
 
 
-def format_missing_table(table: pd.DataFrame) -> pd.DataFrame:
+def format_missing_table(table: pd.DataFrame, lang: str) -> pd.DataFrame:
     """Translate missing value table columns for display."""
 
-    return table.rename(
-        columns={
-            "column": "Columna",
-            "missing_count": "Valores faltantes",
-            "missing_percent": "Porcentaje faltante",
-        }
-    )
+    return label_columns(table, lang)
 
 
 def add_age_range_column(df: pd.DataFrame) -> pd.DataFrame:
@@ -201,147 +248,152 @@ def add_age_range_column(df: pd.DataFrame) -> pd.DataFrame:
     return enriched
 
 
-def display_general_eda(cleaned: pd.DataFrame, metadata: dict[str, object]) -> None:
+def display_general_eda(cleaned: pd.DataFrame, metadata: dict[str, object], lang: str) -> None:
     """Render general EDA information."""
 
-    st.header("Exploración general de datos")
+    st.header(t("general_eda", lang))
     overview = dataset_overview(cleaned)
     metric_cols = st.columns(4)
-    metric_cols[0].metric("Total de registros", f"{overview['rows']:,}")
-    metric_cols[1].metric("Cantidad de columnas", f"{overview['columns']:,}")
-    metric_cols[2].metric("Años detectados", f"{overview['detected_years']:,}")
-    metric_cols[3].metric("Cursos detectados", f"{overview['detected_courses']:,}")
+    metric_cols[0].metric(t("total_records", lang), f"{overview['rows']:,}")
+    metric_cols[1].metric(t("column_count", lang), f"{overview['columns']:,}")
+    metric_cols[2].metric(t("detected_years", lang), f"{overview['detected_years']:,}")
+    metric_cols[3].metric(t("detected_courses", lang), f"{overview['detected_courses']:,}")
 
     duplicate_student_ids = overview.get("duplicate_student_ids")
     if duplicate_student_ids is not None:
-        st.caption(f"Duplicados detectados en student_id: {duplicate_student_ids:,}")
+        st.caption(t("duplicate_student_ids", lang, count=f"{duplicate_student_ids:,}"))
 
     dropped_columns = metadata.get("dropped_empty_columns", [])
     if dropped_columns:
-        st.info("Columnas vacías eliminadas: " + ", ".join(str(column) for column in dropped_columns))
+        st.info(t("dropped_empty_columns", lang, columns=", ".join(str(column) for column in dropped_columns)))
     else:
-        st.caption("No se detectaron columnas completamente vacías.")
+        st.caption(t("no_empty_columns", lang))
 
     tab_preview, tab_missing, tab_types = st.tabs(
-        ["Vista previa", "Valores faltantes", "Tipos de datos"]
+        [t("tab_preview", lang), t("tab_missing", lang), t("tab_types", lang)]
     )
     with tab_preview:
         safe_dataframe(cleaned.head(20), use_container_width=True)
     with tab_missing:
         missing_table = metadata.get("missing_values")
         if isinstance(missing_table, pd.DataFrame):
-            safe_dataframe(format_missing_table(missing_table), use_container_width=True)
+            safe_dataframe(format_missing_table(missing_table, lang), use_container_width=True)
     with tab_types:
         dtype_table = pd.DataFrame(
-            {"Columna": cleaned.dtypes.index, "Tipo de dato": cleaned.dtypes.astype(str).values}
+            {label_column("column", lang): cleaned.dtypes.index, t("tab_types", lang): cleaned.dtypes.astype(str).values}
         )
         safe_dataframe(dtype_table, use_container_width=True)
 
 
-def display_enrollment_by_year(cleaned: pd.DataFrame) -> pd.DataFrame:
+def display_enrollment_by_year(cleaned: pd.DataFrame, lang: str) -> pd.DataFrame:
     """Render annual enrollment analysis and return the table."""
 
-    st.header("Matrícula por año")
+    st.header(t("enrollment_by_year", lang))
     table = enrollment_by_year(cleaned)
     growth = enrollment_growth(table)
 
     if table.empty:
-        st.warning("No se detectó una columna de año para calcular la matrícula anual.")
+        st.warning(t("no_year_column", lang))
         return table
 
     high = table.loc[table["records"].idxmax()]
     low = table.loc[table["records"].idxmin()]
     metric_cols = st.columns(2)
-    metric_cols[0].metric("Año con mayor matrícula", f"{high['year']}", f"{int(high['records'])} registros")
-    metric_cols[1].metric("Año con menor matrícula", f"{low['year']}", f"{int(low['records'])} registros")
+    metric_cols[0].metric(
+        t("highest_enrollment_year", lang),
+        f"{high['year']}",
+        t("records_delta", lang, count=int(high["records"])),
+    )
+    metric_cols[1].metric(
+        t("lowest_enrollment_year", lang),
+        f"{low['year']}",
+        t("records_delta", lang, count=int(low["records"])),
+    )
 
-    display_table = table.rename(columns={"year": "Año", "records": "Registros"})
-    chart_data = prepare_line_chart(display_table, "Año", "Registros")
+    display_table = label_columns(table, lang)
+    chart_data = prepare_line_chart(display_table, label_column("year", lang), label_column("records", lang))
     st.line_chart(chart_data)
     safe_dataframe(display_table, use_container_width=True)
 
-    st.subheader("Variación año a año")
-    display_growth = growth.rename(
-        columns={
-            "year": "Año",
-            "records": "Registros",
-            "absolute_change": "Variación absoluta",
-            "percent_change": "Variación porcentual",
-        }
-    )
+    st.subheader(t("year_over_year_change", lang))
+    display_growth = label_columns(growth, lang)
     safe_dataframe(display_growth, use_container_width=True)
     return table
 
 
-def display_enrollment_by_course(cleaned: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
+def display_enrollment_by_course(cleaned: pd.DataFrame, lang: str) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Render course-level analysis and return course table and matrix."""
 
-    st.header("Matrícula por curso")
+    st.header(t("enrollment_by_course", lang))
     course_table = enrollment_by_course(cleaned)
     matrix = year_course_matrix(cleaned)
 
     if course_table.empty:
-        st.warning("No se detectó una columna de curso para calcular la matrícula por curso.")
+        st.warning(t("no_course_column", lang))
         return course_table, matrix
 
-    display_course = course_table.rename(columns={"course": "Curso", "records": "Registros"})
-    chart_data = prepare_bar_chart(display_course, "Curso", "Registros")
+    display_course = label_columns(course_table, lang)
+    chart_data = prepare_bar_chart(display_course, label_column("course", lang), label_column("records", lang))
     st.bar_chart(chart_data)
     safe_dataframe(display_course, use_container_width=True)
 
-    percentages = course_percentages(course_table).rename(
-        columns={"course": "Curso", "records": "Registros", "percent": "Porcentaje"}
-    )
-    st.subheader("Porcentajes por curso")
+    percentages = label_columns(course_percentages(course_table), lang)
+    st.subheader(t("course_percentages", lang))
     safe_dataframe(percentages, use_container_width=True)
 
-    st.subheader("Matriz año por curso")
+    st.subheader(t("year_course_matrix", lang))
     if matrix.empty:
-        st.info("La matriz año por curso requiere columnas de año y curso.")
+        st.info(t("year_course_matrix_requires_columns", lang))
     else:
+        display_matrix = matrix.copy()
+        display_matrix.index.name = label_column("year", lang)
+        display_matrix.columns.name = label_column("course", lang)
         try:
-            styled_matrix = matrix.style.background_gradient(cmap="Blues", axis=None)
+            styled_matrix = display_matrix.style.background_gradient(cmap="Blues", axis=None)
             safe_dataframe(styled_matrix, use_container_width=True)
         except (ImportError, ValueError, AttributeError):
             # Fallback when Styler rendering fails (e.g., missing matplotlib on Streamlit Cloud)
-            safe_dataframe(matrix, use_container_width=True)
+            safe_dataframe(display_matrix, use_container_width=True)
 
     return course_table, matrix
 
 
-def display_age_analysis(cleaned: pd.DataFrame) -> pd.DataFrame:
+def display_age_analysis(cleaned: pd.DataFrame, lang: str) -> pd.DataFrame:
     """Render age analysis and return the age summary table."""
 
-    st.header("Análisis de edad")
+    st.header(t("age_analysis", lang))
     if "age" not in cleaned.columns:
-        st.info("No se detectó una columna de edad. Esta sección queda disponible cuando el archivo incluye edad.")
+        st.info(t("no_age_column", lang))
         return pd.DataFrame()
 
     summary = age_summary(cleaned)
     if summary.empty:
-        st.info("La columna de edad no contiene valores numéricos suficientes para analizar.")
+        st.info(t("age_not_numeric", lang))
         return summary
 
     metrics = {row.metric: row.value for row in summary.itertuples()}
     metric_cols = st.columns(5)
-    metric_cols[0].metric("Media", metrics.get("media", "Sin dato"))
-    metric_cols[1].metric("Mediana", metrics.get("mediana", "Sin dato"))
-    metric_cols[2].metric("Mínimo", metrics.get("minimo", "Sin dato"))
-    metric_cols[3].metric("Máximo", metrics.get("maximo", "Sin dato"))
-    metric_cols[4].metric("Desv. estándar", metrics.get("desviacion_estandar", "Sin dato"))
+    metric_cols[0].metric(t("mean", lang), metrics.get("media", t("no_data", lang)))
+    metric_cols[1].metric(t("median", lang), metrics.get("mediana", t("no_data", lang)))
+    metric_cols[2].metric(t("minimum", lang), metrics.get("minimo", t("no_data", lang)))
+    metric_cols[3].metric(t("maximum", lang), metrics.get("maximo", t("no_data", lang)))
+    metric_cols[4].metric(t("std_dev", lang), metrics.get("desviacion_estandar", t("no_data", lang)))
 
     age_distribution = prepare_age_distribution(cleaned)
     if not age_distribution.empty:
-        display_age_distribution = age_distribution.rename(columns={"age": "Edad", "records": "Registros"})
-        st.bar_chart(display_age_distribution.set_index("Edad"))
+        display_age_distribution = label_columns(age_distribution, lang)
+        st.bar_chart(display_age_distribution.set_index(label_column("age", lang)))
 
     year_col = detect_year_column(cleaned)
     course_col = detect_course_column(cleaned)
     tab_ranges, tab_year, tab_course, tab_outliers = st.tabs(
-        ["Rangos etarios", "Edad por año", "Edad por curso", "Valores atípicos"]
+        [t("age_ranges", lang), t("age_by_year", lang), t("age_by_course", lang), t("outliers", lang)]
     )
     with tab_ranges:
-        display_ranges = age_ranges(cleaned).rename(columns={"age_range": "Rango etario", "records": "Registros"})
+        display_ranges = age_ranges(cleaned)
+        if not display_ranges.empty:
+            display_ranges = display_ranges.assign(age_range=display_ranges["age_range"].map(lambda value: label_age_range(value, lang)))
+        display_ranges = label_columns(display_ranges, lang)
         safe_dataframe(display_ranges, use_container_width=True)
     with tab_year:
         if year_col:
@@ -352,11 +404,11 @@ def display_age_analysis(cleaned: pd.DataFrame) -> pd.DataFrame:
                 .mean()
                 .round(2)
                 .reset_index()
-                .rename(columns={year_col: "Año", "age": "Edad promedio"})
+                .rename(columns={year_col: "year", "age": "average_age"})
             )
-            safe_dataframe(by_year, use_container_width=True)
+            safe_dataframe(label_columns(by_year, lang), use_container_width=True)
         else:
-            st.info("No se detectó columna de año.")
+            st.info(t("no_year_column", lang))
     with tab_course:
         if course_col:
             by_course = (
@@ -366,11 +418,11 @@ def display_age_analysis(cleaned: pd.DataFrame) -> pd.DataFrame:
                 .mean()
                 .round(2)
                 .reset_index()
-                .rename(columns={course_col: "Curso", "age": "Edad promedio"})
+                .rename(columns={course_col: "course", "age": "average_age"})
             )
-            safe_dataframe(by_course, use_container_width=True)
+            safe_dataframe(label_columns(by_course, lang), use_container_width=True)
         else:
-            st.info("No se detectó columna de curso.")
+            st.info(t("no_course_column", lang))
     with tab_outliers:
         age = pd.to_numeric(cleaned["age"], errors="coerce")
         quartile_1 = age.quantile(0.25)
@@ -379,132 +431,147 @@ def display_age_analysis(cleaned: pd.DataFrame) -> pd.DataFrame:
         lower = quartile_1 - 1.5 * iqr
         upper = quartile_3 + 1.5 * iqr
         outlier_count = int(((age < lower) | (age > upper)).sum())
-        st.metric("Posibles valores atípicos en edad", outlier_count)
-        st.caption(f"Criterio IQR aplicado: menor que {lower:.1f} o mayor que {upper:.1f}.")
+        st.metric(t("possible_age_outliers", lang), outlier_count)
+        st.caption(t("iqr_caption", lang, lower=lower, upper=upper))
 
     return summary
 
 
-def display_categorical_analysis(cleaned: pd.DataFrame) -> pd.DataFrame:
+def display_categorical_analysis(cleaned: pd.DataFrame, lang: str) -> pd.DataFrame:
     """Render categorical distributions and return a summary table."""
 
-    st.header("Análisis categórico")
+    st.header(t("categorical_analysis", lang))
     categorical_report = categorical_summary(cleaned)
     valid_categorical_columns = get_valid_categorical_columns(cleaned)
 
     if not valid_categorical_columns:
-        st.info("No se detectaron variables categóricas adecuadas para analizar.")
+        st.info(t("no_categorical_variables", lang))
         return categorical_report
 
-    selected_column = st.sidebar.selectbox("Columna categórica para explorar", valid_categorical_columns)
+    selected_column = st.sidebar.selectbox(
+        t("categorical_column_select", lang),
+        valid_categorical_columns,
+        format_func=lambda column: label_column(column, lang),
+    )
     
     # Build distribution table with normalized types
     distribution = (
         cleaned[selected_column]
-        .fillna("Sin dato")
+        .fillna(t("no_data", lang))
         .astype(str)
         .value_counts(dropna=False)
         .reset_index()
     )
-    distribution.columns = ["Categoría", "Frecuencia"]
-    distribution["Porcentaje"] = (
-        (distribution["Frecuencia"] / distribution["Frecuencia"].sum() * 100).round(2)
+    distribution.columns = ["category", "frequency"]
+    distribution["percent"] = (
+        (distribution["frequency"] / distribution["frequency"].sum() * 100).round(2)
     )
     distribution = distribution.reset_index(drop=True)
 
-    st.subheader(f"Distribución de {selected_column}")
-    if "Categoría" in distribution.columns and "Frecuencia" in distribution.columns:
+    st.subheader(t("distribution_of", lang, column=label_column(selected_column, lang)))
+    if "category" in distribution.columns and "frequency" in distribution.columns:
         try:
-            st.bar_chart(distribution.set_index("Categoría")["Frecuencia"])
+            display_distribution = label_columns(distribution, lang)
+            st.bar_chart(display_distribution.set_index(label_column("category", lang))[label_column("frequency", lang)])
         except (ValueError, TypeError):
             pass  # Chart may fail with certain types, but don't crash
     
-    safe_dataframe(distribution, use_container_width=True)
+    safe_dataframe(label_columns(distribution, lang), use_container_width=True)
 
-    st.subheader("Resumen categórico")
-    display_report = categorical_report.rename(
-        columns={"column": "Columna", "value": "Valor", "records": "Registros"}
-    )
+    st.subheader(t("categorical_summary", lang))
+    display_report = categorical_report.copy()
+    if "value" in display_report.columns:
+        display_report["value"] = display_report["value"].replace({"Sin dato": t("no_data", lang)})
+    display_report = label_columns(display_report, lang)
     safe_dataframe(display_report, use_container_width=True)
     return categorical_report
 
 
-def display_descriptive_statistics(cleaned: pd.DataFrame, missing_report: pd.DataFrame) -> None:
+def display_descriptive_statistics(cleaned: pd.DataFrame, missing_report: pd.DataFrame, lang: str) -> None:
     """Render descriptive statistics section."""
 
-    st.header("Estadística descriptiva")
+    st.header(t("descriptive_statistics", lang))
     tab_numeric, tab_categorical, tab_missing, tab_cardinality = st.tabs(
-        ["Variables numéricas", "Variables categóricas", "Valores faltantes", "Cardinalidad"]
+        [t("numeric_variables", lang), t("categorical_variables", lang), t("tab_missing", lang), t("cardinality", lang)]
     )
     with tab_numeric:
         numeric = numeric_summary(cleaned)
         if numeric.empty:
-            st.info("No se detectaron variables numéricas.")
+            st.info(t("no_numeric_variables", lang))
         else:
-            safe_dataframe(numeric, use_container_width=True)
+            safe_dataframe(label_columns(numeric, lang), use_container_width=True)
     with tab_categorical:
         categorical = categorical_summary(cleaned, max_unique=10)
         if categorical.empty:
-            st.info("No se detectaron variables categóricas.")
+            st.info(t("no_categorical_variables", lang))
         else:
-            safe_dataframe(
-                categorical.rename(columns={"column": "Columna", "value": "Valor", "records": "Registros"}),
-                use_container_width=True,
-            )
+            display_categorical = categorical.copy()
+            if "value" in display_categorical.columns:
+                display_categorical["value"] = display_categorical["value"].replace({"Sin dato": t("no_data", lang)})
+            safe_dataframe(label_columns(display_categorical, lang), use_container_width=True)
     with tab_missing:
-        safe_dataframe(format_missing_table(missing_report), use_container_width=True)
+        safe_dataframe(format_missing_table(missing_report, lang), use_container_width=True)
     with tab_cardinality:
         cardinality = pd.DataFrame(
             {
-                "Columna": cleaned.columns,
-                "Valores únicos": [cleaned[column].nunique(dropna=True) for column in cleaned.columns],
+                "column": cleaned.columns,
+                "unique_values": [cleaned[column].nunique(dropna=True) for column in cleaned.columns],
             }
         )
-        safe_dataframe(cardinality, use_container_width=True)
+        safe_dataframe(label_columns(cardinality, lang), use_container_width=True)
 
 
-def display_crosstabs(cleaned: pd.DataFrame) -> dict[str, pd.DataFrame]:
+def display_crosstabs(cleaned: pd.DataFrame, lang: str) -> dict[str, pd.DataFrame]:
     """Render available cross-tabulations and return them for export."""
 
-    st.header("Cruces de variables")
+    st.header(t("crosstabs", lang))
     enriched = add_age_range_column(cleaned)
     year_col = detect_year_column(enriched)
     course_col = detect_course_column(enriched)
     available_crosstabs: dict[str, tuple[str, str]] = {}
 
     if year_col and course_col:
-        available_crosstabs["Año por curso"] = (year_col, course_col)
+        available_crosstabs["year_course"] = (year_col, course_col)
     if year_col and "age_range" in enriched.columns:
-        available_crosstabs["Año por rango etario"] = (year_col, "age_range")
+        available_crosstabs["year_age_range"] = (year_col, "age_range")
     if course_col and "age_range" in enriched.columns:
-        available_crosstabs["Curso por rango etario"] = (course_col, "age_range")
+        available_crosstabs["course_age_range"] = (course_col, "age_range")
     if year_col and "gender_group" in enriched.columns:
-        available_crosstabs["Año por género"] = (year_col, "gender_group")
+        available_crosstabs["year_gender"] = (year_col, "gender_group")
     if course_col and "gender_group" in enriched.columns:
-        available_crosstabs["Curso por género"] = (course_col, "gender_group")
+        available_crosstabs["course_gender"] = (course_col, "gender_group")
     if year_col and "nationality_group" in enriched.columns:
-        available_crosstabs["Año por nacionalidad"] = (year_col, "nationality_group")
+        available_crosstabs["year_nationality"] = (year_col, "nationality_group")
 
     if not available_crosstabs:
-        st.info("No hay suficientes columnas para generar cruces de variables.")
+        st.info(t("no_crosstabs", lang))
         return {}
 
     selected_tables = st.multiselect(
-        "Seleccionar cruces para visualizar",
+        t("select_crosstabs", lang),
         options=list(available_crosstabs.keys()),
         default=list(available_crosstabs.keys())[:3],
+        format_func=lambda key: label_crosstab(key, lang),
     )
     rendered_tables: dict[str, pd.DataFrame] = {}
-    for label in selected_tables:
-        row_col, col_col = available_crosstabs[label]
+    for key in selected_tables:
+        row_col, col_col = available_crosstabs[key]
         table = crosstab_summary(enriched, row_col, col_col)
-        rendered_tables[label] = table
+        label = label_crosstab(key, lang)
+        rendered_tables[key] = table
         st.subheader(label)
-        safe_dataframe(table, use_container_width=True)
+        display_table = table.copy()
+        if row_col == "age_range":
+            display_table.index = display_table.index.map(lambda value: label_age_range(value, lang))
+        if col_col == "age_range":
+            display_table.columns = [label_age_range(value, lang) for value in display_table.columns]
+        display_table.index.name = label_column(row_col, lang)
+        display_table.columns.name = label_column(col_col, lang)
+        safe_dataframe(display_table, use_container_width=True)
         st.download_button(
-            f"Descargar {label.lower()}",
+            t("download_crosstab", lang, label=label.lower()),
             data=make_csv_download(table.reset_index()),
-            file_name=f"{label.lower().replace(' ', '_')}.csv",
+            file_name=f"{key}.csv",
             mime="text/csv",
         )
 
@@ -519,10 +586,11 @@ def display_exports(
     missing_report: pd.DataFrame,
     age_report: pd.DataFrame,
     categorical_report: pd.DataFrame,
+    lang: str,
 ) -> None:
     """Render download buttons for exportable outputs."""
 
-    st.header("Exportaciones")
+    st.header(t("exports", lang))
     tables = build_export_tables(
         cleaned_dataset=cleaned,
         enrollment_year=enrollment_year,
@@ -534,24 +602,24 @@ def display_exports(
     )
     export_columns = st.columns(2)
     labels = {
-        "cleaned_dataset.csv": "Descargar dataset limpio",
-        "enrollment_by_year.csv": "Descargar matrícula por año",
-        "enrollment_by_course.csv": "Descargar matrícula por curso",
-        "year_course_matrix.csv": "Descargar matriz año por curso",
-        "missing_values_report.csv": "Descargar reporte de valores faltantes",
-        "age_summary.csv": "Descargar resumen de edad",
-        "categorical_summary.csv": "Descargar resumen categórico",
+        "cleaned_dataset.csv": t("download_cleaned_dataset", lang),
+        "enrollment_by_year.csv": t("download_enrollment_by_year", lang),
+        "enrollment_by_course.csv": t("download_enrollment_by_course", lang),
+        "year_course_matrix.csv": t("download_year_course_matrix", lang),
+        "missing_values_report.csv": t("download_missing_values", lang),
+        "age_summary.csv": t("download_age_summary", lang),
+        "categorical_summary.csv": t("download_categorical_summary", lang),
     }
     for index, (filename, table) in enumerate(tables.items()):
         export_columns[index % 2].download_button(
-            labels.get(filename, f"Descargar {filename}"),
+            labels.get(filename, t("download_file", lang, filename=filename)),
             data=make_csv_download(table),
             file_name=filename,
             mime="text/csv",
         )
 
     st.download_button(
-        "Descargar resumen completo ZIP",
+        t("download_zip", lang),
         data=build_zip_export(tables),
         file_name="full_analysis_summary.zip",
         mime="application/zip",
@@ -562,41 +630,39 @@ def main() -> None:
     """Run the Streamlit app."""
 
     apply_page_styles()
-    st.title("Analizador cuantitativo de matrícula escolar")
+    lang = select_language()
+    st.title(t("app_title", lang))
+    st.markdown(t("app_description", lang))
     st.markdown(
-        "Aplicación interactiva para limpiar archivos institucionales, explorar matrícula por año y curso, "
-        "analizar edades, generar cruces de variables y exportar resultados reproducibles."
-    )
-    st.markdown(
-        '<div class="privacy-note">Esta aplicación procesa los archivos cargados en memoria y no almacena datos de estudiantes.</div>',
+        f'<div class="privacy-note">{t("privacy_note", lang)}</div>',
         unsafe_allow_html=True,
     )
 
-    raw_data, source_label = load_input_data()
+    raw_data, source_label = load_input_data(lang)
     if raw_data is None or raw_data.empty:
-        st.info("Cargá un archivo o activá el dataset de ejemplo para iniciar el análisis.")
+        st.info(t("empty_start", lang))
         return None
 
-    st.sidebar.success(f"Datos cargados desde: {source_label}")
+    st.sidebar.success(t("loaded_source", lang, source=source_label))
 
-    with st.spinner("Limpiando y preparando datos..."):
+    with st.spinner(t("cleaning_spinner", lang)):
         cleaned, metadata = clean_enrollment_dataset(raw_data)
 
     if cleaned.empty:
-        st.warning("El dataset quedó vacío después de la limpieza.")
+        st.warning(t("empty_after_cleaning", lang))
         return None
 
     missing_report = missing_values_summary(cleaned)
-    display_general_eda(cleaned, metadata)
-    enrollment_year = display_enrollment_by_year(cleaned)
-    enrollment_course, matrix = display_enrollment_by_course(cleaned)
-    age_report = display_age_analysis(cleaned)
-    categorical_report = display_categorical_analysis(cleaned)
-    display_descriptive_statistics(cleaned, missing_report)
-    display_crosstabs(cleaned)
+    display_general_eda(cleaned, metadata, lang)
+    enrollment_year = display_enrollment_by_year(cleaned, lang)
+    enrollment_course, matrix = display_enrollment_by_course(cleaned, lang)
+    age_report = display_age_analysis(cleaned, lang)
+    categorical_report = display_categorical_analysis(cleaned, lang)
+    display_descriptive_statistics(cleaned, missing_report, lang)
+    display_crosstabs(cleaned, lang)
 
-    st.header("Resumen automático")
-    st.write(automatic_summary(cleaned))
+    st.header(t("automatic_summary", lang))
+    st.write(automatic_summary(cleaned, lang=lang))
 
     display_exports(
         cleaned=cleaned,
@@ -606,6 +672,7 @@ def main() -> None:
         missing_report=missing_report,
         age_report=age_report,
         categorical_report=categorical_report,
+        lang=lang,
     )
     return None
 

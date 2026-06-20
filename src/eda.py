@@ -11,6 +11,7 @@ from src.enrollment_analysis import (
     enrollment_by_course,
     enrollment_by_year,
 )
+from src.translations import label_column, t
 
 
 AGE_RANGE_LABELS = ["menor_15", "15_17", "18_20", "21_25", "mayor_25"]
@@ -35,6 +36,7 @@ def get_valid_categorical_columns(df: pd.DataFrame) -> list[str]:
     - Object or string type
     - Not identifiers (student_id, id, etc.)
     - Not high cardinality (n_unique <= 50 AND n_unique/n_rows <= 0.5)
+    - Educational key columns such as year/course are preserved when detected
     """
     categorical_columns = [
         column
@@ -42,14 +44,19 @@ def get_valid_categorical_columns(df: pd.DataFrame) -> list[str]:
         if pd.api.types.is_object_dtype(df[column]) or pd.api.types.is_string_dtype(df[column])
     ]
 
-    # Add year column if numeric
-    if "year" in df.columns and "year" not in categorical_columns:
-        categorical_columns.append("year")
+    protected_columns = {column for column in (detect_year_column(df), detect_course_column(df)) if column}
+    for column in protected_columns:
+        if column not in categorical_columns:
+            categorical_columns.append(column)
 
     # Filter out identifiers and high-cardinality columns
     valid_columns = []
     for column in categorical_columns:
         if is_identifier_column(column):
+            continue
+
+        if column in protected_columns:
+            valid_columns.append(column)
             continue
 
         n_unique = df[column].nunique(dropna=True)
@@ -164,51 +171,45 @@ def crosstab_summary(df: pd.DataFrame, row_col: str, col_col: str) -> pd.DataFra
     return table
 
 
-def automatic_summary(df: pd.DataFrame) -> str:
-    """Generate a brief Spanish summary from the processed data."""
+def automatic_summary(df: pd.DataFrame, lang: str = "es") -> str:
+    """Generate a brief translated summary from the processed data."""
 
     overview = dataset_overview(df)
     enrollment_year = enrollment_by_year(df)
     enrollment_course = enrollment_by_course(df)
     missing = missing_values_summary(df)
 
-    lines = [
-        f"El dataset procesado contiene {overview['rows']} registros y {overview['columns']} columnas.",
-    ]
+    lines = [t("summary_dataset", lang, rows=overview["rows"], columns=overview["columns"])]
 
     if not enrollment_year.empty:
         min_year = enrollment_year["year"].min()
         max_year = enrollment_year["year"].max()
         highest = enrollment_year.loc[enrollment_year["records"].idxmax()]
         lowest = enrollment_year.loc[enrollment_year["records"].idxmin()]
-        lines.append(f"Cubre el período {min_year} a {max_year}.")
-        lines.append(
-            f"El año con mayor matrícula es {highest['year']} con {int(highest['records'])} registros."
-        )
-        lines.append(
-            f"El año con menor matrícula es {lowest['year']} con {int(lowest['records'])} registros."
-        )
+        lines.append(t("summary_period", lang, min_year=min_year, max_year=max_year))
+        lines.append(t("summary_highest_year", lang, year=highest["year"], records=int(highest["records"])))
+        lines.append(t("summary_lowest_year", lang, year=lowest["year"], records=int(lowest["records"])))
     else:
-        lines.append("No se detectó una columna de año suficiente para calcular evolución anual.")
+        lines.append(t("summary_no_year", lang))
 
     if not enrollment_course.empty:
         top_course = enrollment_course.iloc[0]
-        lines.append(f"El curso más frecuente es {top_course['course']} con {int(top_course['records'])} registros.")
+        lines.append(t("summary_top_course", lang, course=top_course["course"], records=int(top_course["records"])))
     else:
-        lines.append("No se detectó una columna de curso suficiente para calcular distribución por curso.")
+        lines.append(t("summary_no_course", lang))
 
     if "age" in df.columns:
         age = pd.to_numeric(df["age"], errors="coerce").dropna()
         if not age.empty:
-            lines.append(f"La edad promedio registrada es {age.mean():.1f} años.")
+            lines.append(t("summary_average_age", lang, age=age.mean()))
 
     missing_with_values = missing[missing["missing_count"] > 0].head(3)
     if not missing_with_values.empty:
         formatted_missing = ", ".join(
-            f"{row.column} ({int(row.missing_count)})" for row in missing_with_values.itertuples()
+            f"{label_column(row.column, lang)} ({int(row.missing_count)})" for row in missing_with_values.itertuples()
         )
-        lines.append(f"Las columnas con más valores faltantes son: {formatted_missing}.")
+        lines.append(t("summary_missing", lang, columns=formatted_missing))
     else:
-        lines.append("No se detectaron valores faltantes en las columnas procesadas.")
+        lines.append(t("summary_no_missing", lang))
 
     return " ".join(lines)
