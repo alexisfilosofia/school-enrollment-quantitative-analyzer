@@ -1,0 +1,521 @@
+student_id,year,course,age,gender_group,nationality_group,enrollment_status,neighborhood_group
+SYN-0001,2020,4to año,18,Masculino,Argentina,Traslado,Zona Norte
+SYN-0002,2018,3er año,16,Femenino,Argentina,Activa,Zona Sur
+SYN-0003,2022,4to año,16,Masculino,Argentina,Egresada,Zona Oeste
+SYN-0004,2019,2do año,15,Masculino,Argentina,Activa,Zona Norte
+SYN-0005,2023,5to año,15,Masculino,No informado,Activa,Zona Este
+SYN-0006,2022,5to año,16,Masculino,,Activa,Zona Norte
+SYN-0007,2020,2do año,15,Femenino,Argentina,Activa,Zona Sur
+SYN-0008,2019,2do año,15,Femenino,Otra nacionalidad,Activa,Zona Oeste
+SYN-0009,2021,1er año,14,No informado,Argentina,Activa,Zona Oeste
+SYN-0010,2023,  5to año  ,17,Femenino,Argentina,Activa,Zona Sur
+SYN-0011,2020,2do año,17,Masculino,Argentina,Traslado,Zona Este
+SYN-0012,2020,2do año,14,Masculino,Argentina,Activa,Centro
+SYN-0013,2022,3er año,17,Femenino,Argentina,Activa,Zona Oeste
+SYN-0014,2021,5to año,,Femenino,Argentina,Interrumpida,Zona Este
+SYN-0015,2023,6to año,19,Masculino,Argentina,Activa,Zona Oeste
+SYN-0016,2021,1er año,14,Femenino,Otra nacionalidad,Egresada,Zona Sur
+SYN-0017,2024,3er año,17,Femenino,Argentina,Activa,Zona Norte
+SYN-0018,2022,5to año,21,Masculino,Argentina,Activa,Zona Sur
+SYN-0019,2024,1er año,16,Femenino,Argentina,Egresada,Centro
+SYN-0020,2022,1er año,13,Femenino,Argentina,Activa,Zona Norte
+SYN-0021,2024,3er año,15,Femenino,Argentina,Activa,Zona Oeste
+SYN-0022,2020,2do año,15,No informado,Argentina,Activa,Zona Este
+SYN-0023,2022,1er año,14,Femenino,Argentina,Activa,Zona Oeste
+SYN-0024,2024,2do año,16,Masculino,Argentina,Activa,Zona Oeste
+SYN-0025,2022,2do año,17,Femenino,Argentina,Egresada,Zona Sur
+SYN-0026,2021,  1er año  ,16,Femenino,Argentina,Activa,Zona Oeste
+SYN-0027,2021,6to año,20,Masculino,Argentina,Activa,Zona Este
+SYN-0028,2020,3er año,17,Femenino,País limítrofe,Activa,Centro
+SYN-0029,2024,3er año,20,Masculino,País limítrofe,Egresada,Zona Norte
+SYN-0030,2020,3er año,17,Femenino,Argentina,Activa,No informado
+SYN-0031,2021,2do año,15,Masculino,No informado,Activa,Zona Oeste
+SYN-0032,2020,1er año,13,Masculino,Argentina,Activa,Centro
+SYN-0033,2024,1er año,13,Femenino,Otra nacionalidad,Activa,Zona Norte
+SYN-0034,2023,4to año,16,Femenino,Argentina,Traslado,Zona Sur
+SYN-0035,2022,4to año,16,Masculino,Otra nacionalidad,Activa,Zona Oeste
+SYN-0036,2021,2do año,14,Masculino,Argentina,Activa,Centro
+SYN-0037,2024,1er año,12,Femenino,Argentina,Activa,Centro
+SYN-0038,2024,6to año,20,Femenino,Argentina,Egresada,Zona Oeste
+SYN-0039,2018,4to año,19,Masculino,Argentina,Activa,Centro
+SYN-0040,2019,1er año,14,Femenino,Argentina,Activa,Zona Oeste
+SYN-0041,2020,  4to año  ,17,Femenino,,Egresada,Zona Norte
+SYN-0042,2020,3er año,18,,Argentina,Activa,Zona Sur
+SYN-0043,2018,5to año,16,Femenino,País limítrofe,Traslado,Zona Este
+SYN-0044,2022,5to año,17,Femenino,Argentina,Activa,Centro
+SYN-0045,2020,5to año,20,Femenino,Argentina,Egresada,Centro
+SYN-0046,2022,3er año,14,Femenino,País limítrofe,Egresada,No informado
+SYN-0047,2023,5to año,18,Femenino,Otra nacionalidad,Egresada,Centro
+SYN-0048,2020,5to año,18,Masculino,Argentina,Egresada,Centro
+SYN-0049,2020,2do año,,Masculino,Argentina,Activa,Zona Sur
+SYN-0050,2024,2do año,14,Masculino,Argentina,Activa,Zona Sur
+SYN-0051,2019,6to año,14,No informado,Argentina,Interrumpida,Zona Sur
+SYN-0052,2021,1er año,13,Masculino,Argentina,Activa,Zona Este
+SYN-0053,2023,2do año,14,Femenino,País limítrofe,Activa,
+SYN-0054,2023,5to año,17,Femenino,Argentina,Activa,Zona Sur
+SYN-0055,2020,2do año,16,Femenino,Argentina,Activa,Zona Sur
+SYN-0056,2021,1er año,,Masculino,Argentina,Traslado,Zona Oeste
+SYN-0057,2020,2do año,15,Femenino,Argentina,Activa,Zona Este
+SYN-0058,2020,3er año,16,Femenino,País limítrofe,Egresada,Zona Norte
+SYN-0059,2021,1er año,12,Masculino,Argentina,Activa,Zona Sur
+SYN-0060,2018,1er año,14,Femenino,Argentina,Egresada,Zona Norte
+SYN-0061,2023,3er año,15,Masculino,Argentina,Activa,Zona Norte
+SYN-0062,2023,5to año,17,Femenino,Argentina,Activa,No informado
+SYN-0063,2024,3er año,17,Femenino,Argentina,Activa,No informado
+SYN-0064,2024,4to año,17,Masculino,Argentina,Activa,Zona Este
+SYN-0065,2023,5to año,15,Femenino,Argentina,Activa,Zona Oeste
+SYN-0066,2022,5to año,17,Masculino,Argentina,Activa,Zona Sur
+SYN-0067,2019,2do año,14,Femenino,Argentina,Activa,Zona Norte
+SYN-0068,2022,3er año,17,Femenino,Argentina,Activa,Centro
+SYN-0069,2023,4to año,16,Femenino,Argentina,Activa,Centro
+SYN-0070,2024,5to año,15,Femenino,Argentina,Activa,
+SYN-0071,2018,2do año,15,Femenino,Argentina,Activa,Zona Norte
+SYN-0072,2019,3er año,17,Masculino,Argentina,Activa,Zona Este
+SYN-0073,2021,1er año,13,Femenino,Argentina,Activa,Zona Sur
+SYN-0074,2021,5to año,17,Masculino,Argentina,Activa,Zona Norte
+SYN-0075,2021,1er año,12,Masculino,Argentina,Activa,
+SYN-0076,2019,6to año,17,Femenino,Argentina,Activa,Zona Oeste
+SYN-0077,2023,3er año,16,,Argentina,Activa,Zona Norte
+SYN-0078,2024,5to año,20,Femenino,Argentina,Activa,Zona Oeste
+SYN-0079,2018,6to año,16,Masculino,Argentina,Activa,Centro
+SYN-0080,2022,5to año,19,Femenino,No informado,Egresada,Zona Sur
+SYN-0081,2021,3er año,15,Masculino,Argentina,Activa,No informado
+SYN-0082,2024,4to año,18,Masculino,Argentina,Activa,No informado
+SYN-0083,2022,2do año,15,Femenino,Argentina,Activa,Centro
+SYN-0084,2018,5to año,16,Masculino,Argentina,Activa,Zona Oeste
+SYN-0085,2019,2do año,17,Femenino,Argentina,Activa,Centro
+SYN-0086,2020,4to año,17,Femenino,Otra nacionalidad,Activa,Zona Oeste
+SYN-0087,2023,3er año,16,Masculino,Argentina,Activa,Zona Sur
+SYN-0088,2020,4to año,15,Masculino,Argentina,Activa,Zona Este
+SYN-0089,2020,5to año,17,Femenino,Argentina,Activa,Zona Norte
+SYN-0090,2023,3er año,18,Femenino,Argentina,Activa,Zona Oeste
+SYN-0091,2019,6to año,17,Femenino,Argentina,Activa,Zona Norte
+SYN-0092,2020,3er año,16,No informado,Argentina,Activa,Zona Norte
+SYN-0093,2022,5to año,15,Femenino,Argentina,Activa,Zona Norte
+SYN-0094,2022,6to año,19,Masculino,Argentina,Activa,Zona Oeste
+SYN-0095,2020,1er año,15,No informado,Argentina,Activa,
+SYN-0096,2020,5to año,19,Masculino,Argentina,Activa,Centro
+SYN-0097,2022,6to año,18,Masculino,Otra nacionalidad,Activa,Zona Sur
+SYN-0098,2019,4to año,19,Femenino,Argentina,Activa,Zona Este
+SYN-0099,2023,4to año,17,Masculino,Argentina,Activa,Centro
+SYN-0100,2022,5to año,19,Masculino,Otra nacionalidad,Activa,Zona Este
+SYN-0101,2018,4to año,19,Femenino,Argentina,Activa,Zona Este
+SYN-0102,2019,2do año,14,Masculino,Argentina,Traslado,Zona Este
+SYN-0103,2021,3er año,16,Femenino,Argentina,Activa,No informado
+SYN-0104,2022,5to año,18,Masculino,No informado,Activa,Zona Sur
+SYN-0105,2023,1er año,14,Masculino,Argentina,Activa,Zona Oeste
+SYN-0106,2018,3er año,14,Femenino,Argentina,Activa,Centro
+SYN-0107,2024,2do año,14,Masculino,Argentina,Activa,Zona Sur
+SYN-0108,2024,2do año,14,Femenino,Argentina,Interrumpida,Zona Oeste
+SYN-0109,2021,3er año,15,Masculino,Argentina,Activa,Zona Sur
+SYN-0110,2024,3er año,16,Femenino,Argentina,Activa,No informado
+SYN-0111,2022,4to año,17,Masculino,Argentina,Interrumpida,Centro
+SYN-0112,2019,3er año,17,Masculino,Argentina,Activa,Zona Este
+SYN-0113,2020,2do año,17,Masculino,Argentina,Traslado,Zona Este
+SYN-0114,2024,5to año,14,Femenino,Argentina,Activa,Centro
+SYN-0115,2020,3er año,16,Masculino,No informado,Activa,Zona Norte
+SYN-0116,2021,3er año,15,Masculino,Argentina,Activa,Zona Sur
+SYN-0117,2020,  1er año  ,13,Masculino,Argentina,Activa,Zona Oeste
+SYN-0118,2021,  5to año  ,16,Masculino,Argentina,Interrumpida,Zona Este
+SYN-0119,2024,1er año,12,Masculino,Argentina,Activa,Zona Este
+SYN-0120,2021,4to año,17,Masculino,Argentina,Activa,No informado
+SYN-0121,2024,2do año,14,Masculino,País limítrofe,Activa,Zona Sur
+SYN-0122,2023,4to año,15,Masculino,Argentina,Activa,Zona Oeste
+SYN-0123,2021,6to año,22,,Argentina,Egresada,Zona Este
+SYN-0124,2024,4to año,17,Femenino,Argentina,Activa,Zona Sur
+SYN-0125,2023,1er año,12,Femenino,Argentina,Egresada,Zona Oeste
+SYN-0126,2024,2do año,14,Femenino,Argentina,Activa,Zona Sur
+SYN-0127,2023,1er año,15,Femenino,Argentina,Activa,Zona Oeste
+SYN-0128,2021,4to año,14,Femenino,País limítrofe,Activa,Zona Sur
+SYN-0129,2022,3er año,16,No informado,Argentina,Interrumpida,Zona Oeste
+SYN-0130,2022,2do año,16,Masculino,Argentina,Activa,Zona Oeste
+SYN-0131,2023,3er año,17,Masculino,Argentina,Activa,Zona Oeste
+SYN-0132,2023,4to año,16,Masculino,Argentina,Activa,Centro
+SYN-0133,2022,4to año,16,Masculino,Argentina,Activa,Centro
+SYN-0134,2019,1er año,15,Masculino,,Activa,Centro
+SYN-0135,2022,5to año,18,Masculino,Argentina,Activa,Zona Norte
+SYN-0136,2019,6to año,22,Masculino,País limítrofe,Activa,No informado
+SYN-0137,2023,6to año,19,Femenino,Argentina,Activa,Zona Oeste
+SYN-0138,2022,4to año,15,Masculino,Otra nacionalidad,Activa,Zona Sur
+SYN-0139,2024,1er año,15,Femenino,Argentina,Egresada,Centro
+SYN-0140,2021,2do año,14,Femenino,Otra nacionalidad,Activa,Zona Este
+SYN-0141,2021,1er año,14,Masculino,Argentina,Traslado,Zona Este
+SYN-0142,2019,5to año,17,Femenino,Argentina,Activa,Zona Sur
+SYN-0143,2021,6to año,20,Masculino,País limítrofe,Activa,Zona Oeste
+SYN-0144,2024,3er año,16,Femenino,Argentina,Activa,Zona Norte
+SYN-0145,2023,5to año,16,Masculino,Argentina,Egresada,Zona Sur
+SYN-0146,2022,1er año,14,Femenino,Argentina,Activa,Zona Sur
+SYN-0147,2024,5to año,17,Femenino,País limítrofe,Activa,Zona Norte
+SYN-0148,2019,2do año,15,Masculino,Argentina,Activa,Centro
+SYN-0149,2018,2do año,14,Masculino,Argentina,Activa,Zona Este
+SYN-0150,2022,5to año,19,Femenino,Argentina,Traslado,Zona Norte
+SYN-0151,2021,5to año,19,Masculino,Argentina,Activa,Zona Sur
+SYN-0152,2022,4to año,15,Masculino,Argentina,Activa,Zona Oeste
+SYN-0153,2022,1er año,14,Femenino,No informado,Activa,Zona Este
+SYN-0154,2018,4to año,19,Masculino,País limítrofe,Activa,Centro
+SYN-0155,2020,4to año,17,Femenino,Argentina,Activa,Zona Norte
+SYN-0156,2023,3er año,17,Femenino,Argentina,Traslado,Zona Norte
+SYN-0157,2023,5to año,18,Masculino,Argentina,Activa,Zona Este
+SYN-0158,2019,2do año,15,Femenino,,Activa,Centro
+SYN-0159,2021,4to año,19,Masculino,,Activa,Zona Sur
+SYN-0160,2024,1er año,14,Femenino,Argentina,Activa,Centro
+SYN-0161,2022,5to año,21,Masculino,Argentina,Traslado,Centro
+SYN-0162,2019,2do año,14,Masculino,Argentina,Activa,Zona Norte
+SYN-0163,2019,5to año,16,Masculino,Argentina,Activa,Zona Sur
+SYN-0164,2021,3er año,15,Femenino,Argentina,Activa,
+SYN-0165,2022,1er año,14,Masculino,,Activa,Zona Este
+SYN-0166,2020,3er año,16,Masculino,Argentina,Activa,Zona Sur
+SYN-0167,2018,4to año,15,Femenino,Argentina,Activa,Zona Sur
+SYN-0168,2019,2do año,15,Femenino,Argentina,Activa,Centro
+SYN-0169,2022,1er año,13,Masculino,Argentina,Activa,Centro
+SYN-0170,2018,1er año,15,Masculino,País limítrofe,Activa,Zona Este
+SYN-0171,2018,4to año,16,Femenino,Argentina,Activa,Centro
+SYN-0172,2018,6to año,19,Masculino,Argentina,Activa,Zona Este
+SYN-0173,2021,3er año,15,Femenino,Argentina,Activa,Zona Este
+SYN-0174,2021,6to año,20,Masculino,Argentina,Egresada,Zona Sur
+SYN-0175,2023,1er año,14,Masculino,Argentina,Activa,Zona Este
+SYN-0176,2023,5to año,20,Femenino,País limítrofe,Activa,Zona Oeste
+SYN-0177,2019,4to año,18,Femenino,Argentina,Activa,Zona Sur
+SYN-0178,2022,1er año,13,,Argentina,Activa,Centro
+SYN-0179,2022,1er año,15,Masculino,Argentina,Activa,Centro
+SYN-0180,2021,6to año,16,Masculino,Argentina,Activa,Zona Este
+SYN-0181,2024,1er año,14,Femenino,Argentina,Activa,Zona Norte
+SYN-0182,2021,2do año,15,,Argentina,Activa,Zona Sur
+SYN-0183,2022,2do año,14,Masculino,Argentina,Activa,Zona Norte
+SYN-0184,2020,4to año,18,Masculino,Argentina,Traslado,Centro
+SYN-0185,2021,2do año,14,Masculino,Argentina,Activa,Zona Oeste
+SYN-0186,2020,6to año,18,Femenino,Argentina,Egresada,Zona Oeste
+SYN-0187,2022,5to año,18,Masculino,Argentina,Activa,Zona Sur
+SYN-0188,2020,1er año,12,Masculino,Argentina,Activa,Zona Norte
+SYN-0189,2023,1er año,14,Masculino,País limítrofe,Activa,
+SYN-0190,2019,5to año,17,Femenino,Argentina,Egresada,Centro
+SYN-0191,2021,5to año,19,Masculino,Argentina,Activa,Zona Sur
+SYN-0192,2021,5to año,19,,Argentina,Egresada,Zona Este
+SYN-0193,2024,5to año,15,Femenino,Argentina,Activa,Zona Este
+SYN-0194,2024,6to año,22,Masculino,Argentina,Activa,Zona Oeste
+SYN-0195,2024,5to año,17,Masculino,Argentina,Activa,Zona Sur
+SYN-0196,2019,6to año,18,Femenino,Otra nacionalidad,Activa,Zona Este
+SYN-0197,2022,2do año,15,Femenino,No informado,Activa,Zona Norte
+SYN-0198,2024,6to año,19,Masculino,Argentina,Activa,Zona Sur
+SYN-0199,2023,5to año,,Femenino,Argentina,Activa,Zona Sur
+SYN-0200,2022,5to año,17,Masculino,Argentina,Activa,Zona Sur
+SYN-0201,2023,2do año,16,Femenino,Argentina,Traslado,Zona Oeste
+SYN-0202,2022,1er año,,Femenino,Argentina,Activa,Zona Oeste
+SYN-0203,2018,2do año,13,No informado,Argentina,Activa,Zona Este
+SYN-0204,2022,6to año,20,Femenino,Argentina,Activa,No informado
+SYN-0205,2021,2do año,17,Masculino,Argentina,Activa,Zona Oeste
+SYN-0206,2018,2do año,15,Masculino,Argentina,Activa,Centro
+SYN-0207,2024,3er año,15,Femenino,Argentina,Activa,Zona Sur
+SYN-0208,2019,1er año,,Femenino,Otra nacionalidad,Activa,No informado
+SYN-0209,2019,3er año,16,Femenino,Argentina,Egresada,Zona Sur
+SYN-0210,2021,1er año,16,Masculino,Argentina,Traslado,Zona Sur
+SYN-0211,2024,6to año,16,Masculino,Argentina,Activa,Zona Norte
+SYN-0212,2024,4to año,17,Masculino,Argentina,Activa,Zona Oeste
+SYN-0213,2023,2do año,14,Femenino,Argentina,Egresada,Zona Sur
+SYN-0214,2020,6to año,17,No informado,Otra nacionalidad,Activa,Zona Oeste
+SYN-0215,2024,2do año,15,Femenino,Argentina,Egresada,Zona Norte
+SYN-0216,2023,1er año,12,Femenino,Argentina,Activa,Zona Oeste
+SYN-0217,2023,4to año,18,Masculino,Argentina,Activa,Zona Oeste
+SYN-0218,2019,2do año,14,Masculino,Argentina,Activa,Zona Este
+SYN-0219,2024,2do año,15,Femenino,País limítrofe,,Zona Norte
+SYN-0220,2021,5to año,20,Masculino,Argentina,Activa,Zona Oeste
+SYN-0221,2018,5to año,17,Masculino,País limítrofe,Egresada,Zona Oeste
+SYN-0222,2023,6to año,20,Masculino,Argentina,Activa,Zona Sur
+SYN-0223,2022,1er año,14,Femenino,Argentina,Activa,Zona Oeste
+SYN-0224,2020,1er año,14,No informado,Argentina,,Centro
+SYN-0225,2023,5to año,22,Femenino,Argentina,Activa,Centro
+SYN-0226,2023,5to año,20,Femenino,Otra nacionalidad,Activa,
+SYN-0227,2019,1er año,14,Femenino,Argentina,,Centro
+SYN-0228,2024,6to año,19,Femenino,Argentina,Activa,Zona Norte
+SYN-0229,2019,2do año,13,Masculino,Argentina,Activa,Zona Oeste
+SYN-0230,2024,4to año,,Masculino,Argentina,Activa,Zona Norte
+SYN-0231,2023,4to año,,Femenino,Argentina,Activa,Zona Oeste
+SYN-0232,2024,2do año,14,Femenino,Argentina,Activa,Zona Sur
+SYN-0233,2022,1er año,15,Femenino,Argentina,Activa,Zona Oeste
+SYN-0234,2024,5to año,18,No informado,Argentina,Activa,Zona Este
+SYN-0235,2020,2do año,14,Femenino,Argentina,Activa,Zona Oeste
+SYN-0236,2024,2do año,15,Femenino,Argentina,Activa,Zona Sur
+SYN-0237,2022,5to año,16,Femenino,Argentina,Traslado,Zona Este
+SYN-0238,2020,6to año,19,Femenino,Argentina,Activa,Centro
+SYN-0239,2024,4to año,15,Femenino,País limítrofe,Activa,Centro
+SYN-0240,2021,2do año,15,Masculino,Argentina,Activa,Zona Norte
+SYN-0241,2024,3er año,16,Masculino,Argentina,Interrumpida,Zona Sur
+SYN-0242,2021,5to año,17,Masculino,Argentina,Activa,Zona Este
+SYN-0243,2021,3er año,16,Femenino,Argentina,Activa,Zona Este
+SYN-0244,2022,2do año,,Femenino,No informado,Activa,Zona Sur
+SYN-0245,2023,2do año,15,Femenino,Argentina,Activa,Zona Oeste
+SYN-0246,2022,6to año,17,Masculino,Argentina,Activa,Zona Norte
+SYN-0247,2023,  3er año  ,18,Masculino,Argentina,Activa,Zona Norte
+SYN-0248,2022,4to año,16,Masculino,Argentina,Activa,Zona Norte
+SYN-0249,2020,6to año,19,Femenino,Argentina,Activa,Centro
+SYN-0250,2024,  6to año  ,19,Masculino,Argentina,Activa,Zona Sur
+SYN-0251,2020,2do año,14,Femenino,País limítrofe,Activa,Zona Sur
+SYN-0252,2023,5to año,16,Masculino,Argentina,Activa,Zona Sur
+SYN-0253,2024,2do año,14,Femenino,Argentina,Activa,Zona Oeste
+SYN-0254,2021,2do año,14,Masculino,Argentina,Activa,Zona Norte
+SYN-0255,2024,4to año,14,Masculino,Argentina,Activa,Zona Sur
+SYN-0256,2021,4to año,20,Femenino,Argentina,Activa,Zona Sur
+SYN-0257,2019,3er año,18,Masculino,Argentina,Activa,Zona Oeste
+SYN-0258,2023,3er año,,Femenino,Argentina,Activa,Zona Norte
+SYN-0259,2024,5to año,20,Femenino,Otra nacionalidad,Egresada,Zona Este
+SYN-0260,2024,1er año,14,Femenino,Argentina,Traslado,Zona Norte
+SYN-0261,2024,4to año,14,Masculino,Argentina,Traslado,Zona Norte
+SYN-0262,2024,6to año,18,Femenino,,Traslado,No informado
+SYN-0263,2022,  6to año  ,19,Femenino,No informado,Activa,No informado
+SYN-0264,2022,3er año,16,Masculino,País limítrofe,Activa,Zona Sur
+SYN-0265,2020,1er año,14,Femenino,Argentina,Egresada,Zona Este
+SYN-0266,2019,5to año,19,Masculino,País limítrofe,Egresada,Zona Este
+SYN-0267,2019,1er año,13,Femenino,Argentina,Activa,Zona Sur
+SYN-0268,2024,5to año,17,Femenino,Argentina,Activa,Zona Oeste
+SYN-0269,2020,4to año,17,Femenino,Argentina,Traslado,Zona Oeste
+SYN-0270,2019,2do año,15,Masculino,Argentina,Activa,Zona Sur
+SYN-0271,2022,1er año,15,,Argentina,Activa,Zona Este
+SYN-0272,2020,4to año,19,Femenino,Argentina,Egresada,Zona Norte
+SYN-0273,2022,3er año,16,Femenino,Argentina,Activa,Zona Este
+SYN-0274,2020,1er año,13,Masculino,Argentina,Activa,Zona Oeste
+SYN-0275,2021,1er año,12,Masculino,Argentina,Activa,Zona Este
+SYN-0276,2023,5to año,18,Femenino,Argentina,Activa,Zona Este
+SYN-0277,2024,1er año,14,Masculino,Argentina,Traslado,Zona Norte
+SYN-0278,2023,3er año,16,Masculino,No informado,Activa,Zona Este
+SYN-0279,2024,6to año,16,Femenino,Argentina,Activa,Zona Este
+SYN-0280,2021,4to año,19,Femenino,Argentina,Activa,Zona Oeste
+SYN-0281,2020,2do año,15,Masculino,Argentina,Activa,Centro
+SYN-0282,2021,2do año,15,Femenino,Otra nacionalidad,Activa,Zona Norte
+SYN-0283,2024,5to año,15,Femenino,Argentina,Activa,Zona Norte
+SYN-0284,2023,4to año,18,Femenino,Argentina,Activa,Zona Sur
+SYN-0285,2022,2do año,15,Femenino,Argentina,Activa,Zona Sur
+SYN-0286,2023,4to año,16,,Argentina,Activa,Zona Oeste
+SYN-0287,2024,2do año,15,Masculino,País limítrofe,Activa,Zona Este
+SYN-0288,2024,3er año,16,Masculino,Argentina,Egresada,Zona Sur
+SYN-0289,2023,3er año,17,Femenino,País limítrofe,Activa,Zona Oeste
+SYN-0290,2024,  5to año  ,19,Masculino,Otra nacionalidad,Activa,Zona Norte
+SYN-0291,2024,2do año,15,Masculino,Argentina,Activa,Zona Sur
+SYN-0292,2023,2do año,16,Masculino,País limítrofe,Activa,Centro
+SYN-0293,2024,4to año,15,Femenino,Otra nacionalidad,Activa,Centro
+SYN-0294,2019,6to año,18,No informado,Argentina,Activa,Zona Oeste
+SYN-0295,2023,2do año,,Femenino,Argentina,Activa,Zona Sur
+SYN-0296,2022,3er año,15,Femenino,No informado,Activa,Centro
+SYN-0297,2022,6to año,17,Femenino,Argentina,Activa,Centro
+SYN-0298,2021,4to año,18,Femenino,Argentina,Activa,Centro
+SYN-0299,2020,3er año,15,Masculino,Otra nacionalidad,Activa,Zona Este
+SYN-0300,2023,1er año,12,Femenino,Argentina,Activa,Centro
+SYN-0301,2018,3er año,16,Masculino,Otra nacionalidad,,Centro
+SYN-0302,2024,3er año,15,,Argentina,Activa,Zona Este
+SYN-0303,2022,2do año,13,Femenino,Argentina,Activa,Zona Este
+SYN-0304,2022,1er año,13,Femenino,No informado,Activa,Centro
+SYN-0305,2019,4to año,18,Femenino,Argentina,Activa,Zona Este
+SYN-0306,2020,5to año,15,Femenino,Argentina,Activa,Zona Este
+SYN-0307,2024,6to año,19,Masculino,País limítrofe,Activa,Zona Norte
+SYN-0308,2022,2do año,17,Femenino,Argentina,Activa,Zona Este
+SYN-0309,2024,3er año,16,Femenino,Argentina,Activa,
+SYN-0310,2024,5to año,16,Femenino,Argentina,Activa,Centro
+SYN-0311,2024,6to año,18,Femenino,Otra nacionalidad,Activa,Centro
+SYN-0312,2021,4to año,17,Femenino,Argentina,Activa,Centro
+SYN-0313,2023,2do año,16,Femenino,No informado,Activa,Zona Este
+SYN-0314,2018,6to año,18,Femenino,Argentina,Activa,Centro
+SYN-0315,2018,6to año,16,Femenino,No informado,Activa,Zona Sur
+SYN-0316,2021,6to año,20,Masculino,Argentina,Activa,Zona Oeste
+SYN-0317,2019,5to año,18,Masculino,Argentina,Activa,Zona Sur
+SYN-0318,2018,1er año,13,Femenino,Argentina,Activa,Zona Norte
+SYN-0319,2021,1er año,12,Femenino,Argentina,Activa,Zona Oeste
+SYN-0320,2021,2do año,15,Femenino,Argentina,Activa,Centro
+SYN-0321,2019,6to año,,Femenino,Argentina,Activa,Zona Este
+SYN-0322,2021,1er año,14,Femenino,Argentina,Activa,Zona Sur
+SYN-0323,2019,2do año,14,Femenino,Argentina,Traslado,Zona Sur
+SYN-0324,2023,4to año,15,Femenino,Argentina,Egresada,Centro
+SYN-0325,2024,6to año,20,Femenino,Argentina,Interrumpida,No informado
+SYN-0326,2023,2do año,16,Masculino,Argentina,Activa,
+SYN-0327,2022,5to año,17,Masculino,Argentina,Activa,Zona Este
+SYN-0328,2021,6to año,19,Masculino,Argentina,Activa,Zona Oeste
+SYN-0329,2022,  5to año  ,18,Masculino,Argentina,Activa,Zona Oeste
+SYN-0330,2018,5to año,16,No informado,Argentina,Activa,Zona Este
+SYN-0331,2023,6to año,18,Femenino,,Activa,Zona Oeste
+SYN-0332,2023,1er año,13,Masculino,Argentina,Activa,Zona Norte
+SYN-0333,2023,6to año,18,Masculino,Argentina,Activa,Zona Sur
+SYN-0334,2022,3er año,15,Masculino,Argentina,Activa,Zona Sur
+SYN-0335,2021,5to año,16,Femenino,Argentina,Activa,No informado
+SYN-0336,2024,1er año,13,Femenino,Argentina,Activa,Zona Sur
+SYN-0337,2023,3er año,14,Femenino,Argentina,Egresada,Zona Norte
+SYN-0338,2023,5to año,18,Masculino,Argentina,Interrumpida,Zona Sur
+SYN-0339,2024,1er año,15,Femenino,,Activa,Zona Oeste
+SYN-0340,2018,3er año,17,Masculino,Argentina,,Zona Sur
+SYN-0341,2023,4to año,17,Femenino,Argentina,Egresada,Zona Norte
+SYN-0342,2021,2do año,17,Femenino,País limítrofe,Activa,Zona Oeste
+SYN-0343,2021,4to año,15,Masculino,Argentina,Egresada,Zona Oeste
+SYN-0344,2022,2do año,14,Femenino,Argentina,Activa,Zona Sur
+SYN-0345,2021,1er año,13,Femenino,Argentina,Activa,Zona Oeste
+SYN-0346,2023,4to año,15,No informado,Argentina,Activa,Zona Norte
+SYN-0347,2021,2do año,14,Femenino,Argentina,Egresada,No informado
+SYN-0348,2022,3er año,16,Masculino,Argentina,Egresada,Zona Este
+SYN-0349,2020,1er año,16,Femenino,Argentina,Activa,Zona Este
+SYN-0350,2023,5to año,18,Masculino,Argentina,Activa,Centro
+SYN-0351,2018,5to año,16,Masculino,Argentina,Interrumpida,Zona Norte
+SYN-0352,2023,5to año,20,Femenino,No informado,Activa,Zona Sur
+SYN-0353,2023,5to año,13,Femenino,Argentina,Activa,Zona Sur
+SYN-0354,2023,4to año,19,Femenino,Argentina,Activa,Zona Sur
+SYN-0355,2022,  1er año  ,13,Femenino,Argentina,Activa,Zona Sur
+SYN-0356,2024,5to año,19,Masculino,Argentina,Interrumpida,Centro
+SYN-0357,2019,6to año,22,Masculino,Argentina,Activa,Centro
+SYN-0358,2023,5to año,18,Femenino,Argentina,,Zona Este
+SYN-0359,2018,3er año,14,Masculino,Argentina,Traslado,Zona Sur
+SYN-0360,2020,6to año,16,Femenino,Argentina,Activa,Zona Oeste
+SYN-0361,2018,3er año,15,Masculino,Argentina,Activa,Zona Sur
+SYN-0362,2024,2do año,14,Femenino,Argentina,Activa,Zona Este
+SYN-0363,2018,2do año,15,Masculino,Argentina,Activa,Centro
+SYN-0364,2018,3er año,15,Masculino,Argentina,Activa,Zona Norte
+SYN-0365,2020,4to año,19,Masculino,Argentina,Activa,Centro
+SYN-0366,2021,1er año,16,Femenino,Argentina,Activa,Zona Oeste
+SYN-0367,2019,4to año,19,Femenino,Argentina,Activa,
+SYN-0368,2024,5to año,18,Femenino,Argentina,Activa,Zona Sur
+SYN-0369,2024,5to año,19,Femenino,Argentina,Activa,Zona Norte
+SYN-0370,2019,6to año,20,Masculino,Argentina,,Zona Este
+SYN-0371,2021,4to año,16,Masculino,País limítrofe,Activa,Zona Norte
+SYN-0372,2022,5to año,17,Femenino,Otra nacionalidad,Activa,Zona Norte
+SYN-0373,2022,2do año,16,Masculino,Argentina,Activa,Centro
+SYN-0374,2020,4to año,18,Masculino,Argentina,Activa,Zona Sur
+SYN-0375,2022,1er año,16,Femenino,Argentina,Activa,Zona Este
+SYN-0376,2024,6to año,16,Masculino,Argentina,Egresada,Zona Este
+SYN-0377,2024,2do año,,Masculino,Argentina,Activa,Zona Sur
+SYN-0378,2018,1er año,12,Masculino,Argentina,Activa,Zona Este
+SYN-0379,2022,3er año,16,Masculino,Argentina,Activa,Zona Este
+SYN-0380,2023,2do año,14,Masculino,Argentina,Activa,Centro
+SYN-0381,2023,4to año,19,Masculino,Argentina,Activa,Zona Este
+SYN-0382,2022,3er año,17,Femenino,Argentina,Activa,Zona Norte
+SYN-0383,2024,4to año,17,Masculino,Argentina,Activa,Zona Norte
+SYN-0384,2023,  1er año  ,13,Femenino,País limítrofe,Activa,Zona Norte
+SYN-0385,2023,5to año,18,Masculino,Argentina,Activa,Zona Sur
+SYN-0386,2022,3er año,16,Femenino,Argentina,Activa,Zona Este
+SYN-0387,2018,4to año,17,,Argentina,Activa,Zona Sur
+SYN-0388,2024,1er año,15,Masculino,Argentina,Traslado,Centro
+SYN-0389,2023,3er año,15,Femenino,Argentina,Activa,Zona Este
+SYN-0390,2019,6to año,20,Masculino,No informado,Interrumpida,Zona Norte
+SYN-0391,2020,  3er año  ,,Masculino,Argentina,Activa,Zona Este
+SYN-0392,2022,2do año,17,Femenino,Argentina,Activa,Centro
+SYN-0393,2020,1er año,15,Femenino,Argentina,Activa,Zona Sur
+SYN-0394,2024,5to año,16,Masculino,Argentina,Activa,Centro
+SYN-0395,2020,4to año,18,Masculino,Argentina,Interrumpida,Zona Oeste
+SYN-0396,2024,  1er año  ,15,Masculino,Argentina,Activa,Zona Sur
+SYN-0397,2019,6to año,,Masculino,Argentina,Activa,Zona Este
+SYN-0398,2020,6to año,19,Femenino,Argentina,Egresada,Zona Oeste
+SYN-0399,2018,5to año,,Femenino,Argentina,Activa,Zona Norte
+SYN-0400,2021,1er año,15,Femenino,Argentina,Interrumpida,Zona Sur
+SYN-0401,2019,2do año,15,Masculino,Argentina,Activa,Zona Norte
+SYN-0402,2020,5to año,19,Femenino,Argentina,Activa,Zona Este
+SYN-0403,2018,4to año,17,Femenino,Argentina,Activa,Zona Sur
+SYN-0404,2023,3er año,20,Femenino,Argentina,Egresada,No informado
+SYN-0405,2023,1er año,14,Masculino,Argentina,Activa,Centro
+SYN-0406,2018,1er año,13,Masculino,Argentina,Activa,Centro
+SYN-0407,2021,5to año,18,Femenino,Argentina,Egresada,Zona Sur
+SYN-0408,2023,1er año,14,Femenino,Argentina,Activa,Zona Sur
+SYN-0409,2020,6to año,21,Femenino,Argentina,Activa,Zona Norte
+SYN-0410,2019,2do año,15,Femenino,País limítrofe,Activa,Zona Oeste
+SYN-0411,2023,5to año,19,Femenino,Argentina,Activa,Centro
+SYN-0412,2021,3er año,12,Femenino,Argentina,Activa,Centro
+SYN-0413,2022,5to año,22,Masculino,No informado,Interrumpida,Zona Norte
+SYN-0414,2020,4to año,18,Masculino,País limítrofe,Activa,
+SYN-0415,2021,2do año,16,Masculino,País limítrofe,Activa,Zona Oeste
+SYN-0416,2023,5to año,15,Masculino,Argentina,Activa,Centro
+SYN-0417,2024,3er año,15,Masculino,Argentina,Activa,Zona Este
+SYN-0418,2020,1er año,14,Femenino,Argentina,Activa,Centro
+SYN-0419,2024,2do año,16,Masculino,Argentina,Activa,Zona Oeste
+SYN-0420,2023,6to año,21,Masculino,País limítrofe,Interrumpida,Zona Sur
+SYN-0421,2020,6to año,18,Femenino,Argentina,Traslado,Centro
+SYN-0422,2023,6to año,19,Femenino,Otra nacionalidad,Activa,Centro
+SYN-0423,2019,5to año,18,Femenino,Argentina,Activa,Zona Oeste
+SYN-0424,2024,6to año,21,Femenino,No informado,Interrumpida,Zona Norte
+SYN-0425,2020,4to año,20,Masculino,Otra nacionalidad,Activa,Centro
+SYN-0426,2024,2do año,13,Femenino,País limítrofe,Activa,
+SYN-0427,2020,4to año,,Femenino,Argentina,Activa,Zona Norte
+SYN-0428,2021,1er año,13,Masculino,Otra nacionalidad,Traslado,Zona Este
+SYN-0429,2022,2do año,14,Masculino,Argentina,Activa,Zona Norte
+SYN-0430,2024,1er año,14,Femenino,Argentina,Interrumpida,Zona Norte
+SYN-0431,2022,1er año,13,Masculino,Argentina,Activa,Zona Oeste
+SYN-0432,2018,3er año,17,Masculino,Argentina,Traslado,Zona Norte
+SYN-0433,2023,1er año,14,Masculino,Argentina,Activa,Zona Sur
+SYN-0434,2018,2do año,16,Masculino,Argentina,Activa,Zona Sur
+SYN-0435,2022,3er año,15,Femenino,Argentina,Activa,Zona Sur
+SYN-0436,2024,1er año,15,Femenino,Argentina,Activa,Zona Oeste
+SYN-0437,2024,1er año,13,Femenino,Argentina,Activa,Zona Este
+SYN-0438,2020,2do año,15,Femenino,Argentina,Activa,Zona Norte
+SYN-0439,2022,2do año,12,,País limítrofe,Egresada,Zona Este
+SYN-0440,2024,3er año,15,Femenino,País limítrofe,Activa,Zona Norte
+SYN-0441,2024,6to año,18,Masculino,Argentina,Activa,Zona Norte
+SYN-0442,2019,5to año,16,No informado,No informado,Egresada,Zona Norte
+SYN-0443,2024,3er año,17,Masculino,Argentina,Activa,Centro
+SYN-0444,2018,6to año,18,Femenino,Argentina,Activa,Zona Sur
+SYN-0445,2022,3er año,17,Masculino,Argentina,Activa,Zona Norte
+SYN-0446,2023,4to año,15,Masculino,País limítrofe,Activa,Zona Norte
+SYN-0447,2021,2do año,14,Femenino,Argentina,Activa,Zona Norte
+SYN-0448,2019,2do año,15,Masculino,Argentina,Activa,Centro
+SYN-0449,2024,2do año,15,Masculino,Argentina,Egresada,Zona Sur
+SYN-0450,2022,2do año,17,Masculino,Argentina,Egresada,Zona Norte
+SYN-0451,2020,6to año,15,Femenino,Argentina,Activa,Zona Sur
+SYN-0452,2023,5to año,19,Masculino,País limítrofe,Egresada,Zona Este
+SYN-0453,2019,1er año,13,Masculino,País limítrofe,Activa,Zona Sur
+SYN-0454,2024,5to año,,Femenino,Argentina,Traslado,Zona Oeste
+SYN-0455,2023,2do año,15,Femenino,Argentina,Activa,Zona Oeste
+SYN-0456,2024,1er año,13,Masculino,Argentina,Activa,Centro
+SYN-0457,2021,  5to año  ,17,Femenino,Argentina,Interrumpida,Centro
+SYN-0458,2023,4to año,16,Femenino,Argentina,Activa,Centro
+SYN-0459,2023,5to año,21,Masculino,Argentina,Activa,Centro
+SYN-0460,2024,2do año,15,,Argentina,Activa,Zona Sur
+SYN-0461,2024,2do año,13,Femenino,Argentina,Activa,Zona Oeste
+SYN-0462,2021,5to año,18,Masculino,Argentina,Activa,Zona Norte
+SYN-0463,2024,1er año,15,Femenino,Argentina,Traslado,Zona Sur
+SYN-0464,2023,1er año,14,Masculino,Argentina,Egresada,Zona Oeste
+SYN-0465,2023,4to año,16,No informado,Argentina,Activa,Zona Sur
+SYN-0466,2023,1er año,12,Masculino,Argentina,Activa,Zona Sur
+SYN-0467,2023,3er año,16,Masculino,País limítrofe,Egresada,Centro
+SYN-0468,2018,1er año,12,Femenino,Argentina,Egresada,Centro
+SYN-0469,2018,1er año,13,Femenino,Argentina,Activa,Centro
+SYN-0470,2020,2do año,14,Femenino,País limítrofe,Activa,Centro
+SYN-0471,2024,4to año,17,Masculino,País limítrofe,Activa,Zona Sur
+SYN-0472,2024,1er año,14,Femenino,Argentina,Activa,Zona Este
+SYN-0473,2023,6to año,17,Masculino,Argentina,Activa,Zona Norte
+SYN-0474,2018,4to año,17,Femenino,Argentina,Activa,Centro
+SYN-0475,2022,3er año,16,Masculino,Argentina,Interrumpida,Zona Sur
+SYN-0476,2019,1er año,13,Femenino,Argentina,Activa,Centro
+SYN-0477,2020,1er año,13,Masculino,Argentina,Activa,Zona Sur
+SYN-0478,2019,4to año,15,Masculino,,Activa,Zona Oeste
+SYN-0479,2024,4to año,15,Femenino,País limítrofe,Activa,Zona Norte
+SYN-0480,2024,6to año,22,Femenino,Argentina,Activa,Zona Norte
+SYN-0481,2021,5to año,17,Masculino,Argentina,Egresada,Zona Sur
+SYN-0482,2018,3er año,15,No informado,Argentina,Activa,Zona Norte
+SYN-0483,2022,4to año,16,Femenino,Argentina,Activa,Zona Oeste
+SYN-0484,2023,2do año,15,Masculino,Argentina,Activa,Zona Norte
+SYN-0485,2019,5to año,20,Femenino,Argentina,Activa,Zona Sur
+SYN-0486,2022,2do año,16,Femenino,Argentina,Activa,Zona Norte
+SYN-0487,2021,3er año,17,Femenino,Argentina,,Centro
+SYN-0488,2019,4to año,20,Femenino,Argentina,Activa,Zona Norte
+SYN-0489,2020,2do año,15,Femenino,Argentina,Activa,Zona Norte
+SYN-0490,2023,2do año,18,Femenino,Argentina,Activa,Centro
+SYN-0491,2019,1er año,15,Femenino,Argentina,Activa,Centro
+SYN-0492,2024,1er año,12,Femenino,Argentina,Interrumpida,Zona Sur
+SYN-0493,2023,2do año,16,Masculino,Argentina,Activa,Zona Norte
+SYN-0494,2019,6to año,16,Femenino,Argentina,Egresada,Zona Oeste
+SYN-0495,2018,1er año,13,Masculino,Argentina,Interrumpida,Zona Norte
+SYN-0496,2019,6to año,20,Femenino,Argentina,Activa,Zona Sur
+SYN-0497,2022,4to año,16,Masculino,No informado,Activa,Zona Sur
+SYN-0498,2023,3er año,14,Femenino,Argentina,Activa,Zona Sur
+SYN-0499,2022,  4to año  ,15,No informado,Argentina,Activa,Zona Norte
+SYN-0500,2024,5to año,20,Masculino,Argentina,Activa,Zona Sur
+SYN-0501,2023,6to año,20,Femenino,Argentina,Activa,Centro
+SYN-0502,2024,3er año,16,Femenino,Argentina,Activa,Zona Oeste
+SYN-0503,2018,1er año,13,Femenino,Argentina,Activa,
+SYN-0504,2019,3er año,17,Masculino,Otra nacionalidad,Activa,Zona Norte
+SYN-0505,2022,2do año,13,Femenino,Argentina,Activa,Zona Norte
+SYN-0506,2020,5to año,18,Femenino,Argentina,Interrumpida,Zona Sur
+SYN-0507,2019,3er año,16,Femenino,Argentina,Activa,Zona Norte
+SYN-0508,2019,4to año,16,Masculino,Argentina,Activa,Centro
+SYN-0509,2024,4to año,18,Masculino,Argentina,Activa,Zona Este
+SYN-0510,2024,4to año,18,Femenino,Argentina,Activa,Zona Norte
+SYN-0511,2022,6to año,20,Masculino,Argentina,Activa,Zona Oeste
+SYN-0512,2021,1er año,13,Masculino,País limítrofe,Activa,Zona Sur
+SYN-0513,2020,6to año,21,Masculino,No informado,Activa,Zona Norte
+SYN-0514,2023,3er año,15,Masculino,Argentina,Activa,Centro
+SYN-0515,2019,4to año,19,Masculino,Argentina,Activa,Zona Oeste
+SYN-0516,2023,6to año,18,Masculino,Argentina,Activa,Zona Sur
+SYN-0517,2022,1er año,13,Masculino,Argentina,Activa,Centro
+SYN-0518,2024,2do año,16,Masculino,Argentina,Activa,
+SYN-0519,2019,4to año,18,Femenino,Argentina,Egresada,Zona Oeste
+SYN-0520,2023,2do año,17,Femenino,Argentina,Activa,Centro
