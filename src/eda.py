@@ -15,6 +15,54 @@ from src.enrollment_analysis import (
 
 AGE_RANGE_LABELS = ["menor_15", "15_17", "18_20", "21_25", "mayor_25"]
 
+# Identifier patterns to exclude from categorical analysis
+IDENTIFIER_PATTERNS = {"id", "student_id", "studentid", "id_", "_id"}
+MAX_CARDINALITY_RATIO = 0.5  # Exclude columns where n_unique / n_rows > this ratio
+MAX_UNIQUE_VALUES = 50  # Exclude columns with more than this many unique values
+
+
+def is_identifier_column(column_name: str) -> bool:
+    """Check if a column name looks like an identifier."""
+    col_lower = column_name.lower()
+    return any(pattern in col_lower for pattern in IDENTIFIER_PATTERNS)
+
+
+def get_valid_categorical_columns(df: pd.DataFrame) -> list[str]:
+    """
+    Get list of valid categorical columns, excluding identifiers and high-cardinality columns.
+
+    Returns columns that are:
+    - Object or string type
+    - Not identifiers (student_id, id, etc.)
+    - Not high cardinality (n_unique <= 50 AND n_unique/n_rows <= 0.5)
+    """
+    categorical_columns = [
+        column
+        for column in df.columns
+        if pd.api.types.is_object_dtype(df[column]) or pd.api.types.is_string_dtype(df[column])
+    ]
+
+    # Add year column if numeric
+    if "year" in df.columns and "year" not in categorical_columns:
+        categorical_columns.append("year")
+
+    # Filter out identifiers and high-cardinality columns
+    valid_columns = []
+    for column in categorical_columns:
+        if is_identifier_column(column):
+            continue
+
+        n_unique = df[column].nunique(dropna=True)
+        n_rows = len(df)
+
+        # Exclude if too many unique values
+        if n_unique > MAX_UNIQUE_VALUES or (n_rows > 0 and n_unique / n_rows > MAX_CARDINALITY_RATIO):
+            continue
+
+        valid_columns.append(column)
+
+    return valid_columns
+
 
 def dataset_overview(df: pd.DataFrame) -> dict[str, object]:
     """Return basic dataset-level indicators."""
@@ -46,14 +94,16 @@ def numeric_summary(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def categorical_summary(df: pd.DataFrame, max_unique: int = 30) -> pd.DataFrame:
-    """Return top category counts for categorical columns."""
+    """Return top category counts for categorical columns, excluding identifiers."""
 
     rows: list[dict[str, object]] = []
-    categorical_columns = df.select_dtypes(include=["object", "string", "category"]).columns
-    for column in categorical_columns:
+    valid_columns = get_valid_categorical_columns(df)
+    
+    for column in valid_columns:
         counts = df[column].fillna("Sin dato").value_counts(dropna=False).head(max_unique)
         for value, count in counts.items():
             rows.append({"column": column, "value": value, "records": int(count)})
+    
     return pd.DataFrame(rows, columns=["column", "value", "records"])
 
 
