@@ -16,6 +16,7 @@ from src.eda import (
     categorical_summary,
     crosstab_summary,
     dataset_overview,
+    get_valid_categorical_columns,
     numeric_summary,
 )
 from src.enrollment_analysis import (
@@ -102,6 +103,25 @@ def apply_page_styles() -> None:
         """,
         unsafe_allow_html=True,
     )
+
+
+def safe_dataframe(df: pd.DataFrame, **kwargs: object) -> None:
+    """
+    Safely render a DataFrame, normalizing types if needed.
+    
+    Attempts to render with st.dataframe. If serialization fails,
+    converts columns to safe types and retries.
+    """
+    try:
+        st.dataframe(df, **kwargs)
+    except (ValueError, TypeError, ImportError):
+        # Normalize DataFrame for Arrow serialization
+        safe_df = df.copy()
+        safe_df.columns = [str(c) for c in safe_df.columns]
+        for col in safe_df.columns:
+            if safe_df[col].dtype == "object":
+                safe_df[col] = safe_df[col].astype(str)
+        st.dataframe(safe_df, **kwargs)
 
 
 def load_input_data() -> tuple[pd.DataFrame | None, str]:
@@ -206,16 +226,16 @@ def display_general_eda(cleaned: pd.DataFrame, metadata: dict[str, object]) -> N
         ["Vista previa", "Valores faltantes", "Tipos de datos"]
     )
     with tab_preview:
-        st.dataframe(cleaned.head(20), use_container_width=True)
+        safe_dataframe(cleaned.head(20), use_container_width=True)
     with tab_missing:
         missing_table = metadata.get("missing_values")
         if isinstance(missing_table, pd.DataFrame):
-            st.dataframe(format_missing_table(missing_table), use_container_width=True)
+            safe_dataframe(format_missing_table(missing_table), use_container_width=True)
     with tab_types:
         dtype_table = pd.DataFrame(
             {"Columna": cleaned.dtypes.index, "Tipo de dato": cleaned.dtypes.astype(str).values}
         )
-        st.dataframe(dtype_table, use_container_width=True)
+        safe_dataframe(dtype_table, use_container_width=True)
 
 
 def display_enrollment_by_year(cleaned: pd.DataFrame) -> pd.DataFrame:
@@ -238,7 +258,7 @@ def display_enrollment_by_year(cleaned: pd.DataFrame) -> pd.DataFrame:
     display_table = table.rename(columns={"year": "Año", "records": "Registros"})
     chart_data = prepare_line_chart(display_table, "Año", "Registros")
     st.line_chart(chart_data)
-    st.dataframe(display_table, use_container_width=True)
+    safe_dataframe(display_table, use_container_width=True)
 
     st.subheader("Variación año a año")
     display_growth = growth.rename(
@@ -249,7 +269,7 @@ def display_enrollment_by_year(cleaned: pd.DataFrame) -> pd.DataFrame:
             "percent_change": "Variación porcentual",
         }
     )
-    st.dataframe(display_growth, use_container_width=True)
+    safe_dataframe(display_growth, use_container_width=True)
     return table
 
 
@@ -267,20 +287,24 @@ def display_enrollment_by_course(cleaned: pd.DataFrame) -> tuple[pd.DataFrame, p
     display_course = course_table.rename(columns={"course": "Curso", "records": "Registros"})
     chart_data = prepare_bar_chart(display_course, "Curso", "Registros")
     st.bar_chart(chart_data)
-    st.dataframe(display_course, use_container_width=True)
+    safe_dataframe(display_course, use_container_width=True)
 
     percentages = course_percentages(course_table).rename(
         columns={"course": "Curso", "records": "Registros", "percent": "Porcentaje"}
     )
     st.subheader("Porcentajes por curso")
-    st.dataframe(percentages, use_container_width=True)
+    safe_dataframe(percentages, use_container_width=True)
 
     st.subheader("Matriz año por curso")
     if matrix.empty:
         st.info("La matriz año por curso requiere columnas de año y curso.")
     else:
-        styled_matrix = matrix.style.background_gradient(cmap="Blues", axis=None)
-        st.dataframe(styled_matrix, use_container_width=True)
+        try:
+            styled_matrix = matrix.style.background_gradient(cmap="Blues", axis=None)
+            safe_dataframe(styled_matrix, use_container_width=True)
+        except (ImportError, ValueError, AttributeError):
+            # Fallback when Styler rendering fails (e.g., missing matplotlib on Streamlit Cloud)
+            safe_dataframe(matrix, use_container_width=True)
 
     return course_table, matrix
 
@@ -318,7 +342,7 @@ def display_age_analysis(cleaned: pd.DataFrame) -> pd.DataFrame:
     )
     with tab_ranges:
         display_ranges = age_ranges(cleaned).rename(columns={"age_range": "Rango etario", "records": "Registros"})
-        st.dataframe(display_ranges, use_container_width=True)
+        safe_dataframe(display_ranges, use_container_width=True)
     with tab_year:
         if year_col:
             by_year = (
@@ -330,7 +354,7 @@ def display_age_analysis(cleaned: pd.DataFrame) -> pd.DataFrame:
                 .reset_index()
                 .rename(columns={year_col: "Año", "age": "Edad promedio"})
             )
-            st.dataframe(by_year, use_container_width=True)
+            safe_dataframe(by_year, use_container_width=True)
         else:
             st.info("No se detectó columna de año.")
     with tab_course:
@@ -344,7 +368,7 @@ def display_age_analysis(cleaned: pd.DataFrame) -> pd.DataFrame:
                 .reset_index()
                 .rename(columns={course_col: "Curso", "age": "Edad promedio"})
             )
-            st.dataframe(by_course, use_container_width=True)
+            safe_dataframe(by_course, use_container_width=True)
         else:
             st.info("No se detectó columna de curso.")
     with tab_outliers:
@@ -366,42 +390,42 @@ def display_categorical_analysis(cleaned: pd.DataFrame) -> pd.DataFrame:
 
     st.header("Análisis categórico")
     categorical_report = categorical_summary(cleaned)
-    categorical_columns = [
-        column
-        for column in cleaned.columns
-        if pd.api.types.is_object_dtype(cleaned[column]) or pd.api.types.is_string_dtype(cleaned[column])
-    ]
-    if "year" in cleaned.columns and "year" not in categorical_columns:
-        categorical_columns.append("year")
+    valid_categorical_columns = get_valid_categorical_columns(cleaned)
 
-    if not categorical_columns:
-        st.info("No se detectaron columnas categóricas para explorar.")
+    if not valid_categorical_columns:
+        st.info("No se detectaron variables categóricas adecuadas para analizar.")
         return categorical_report
 
-    selected_column = st.sidebar.selectbox("Columna categórica para explorar", categorical_columns)
+    selected_column = st.sidebar.selectbox("Columna categórica para explorar", valid_categorical_columns)
+    
+    # Build distribution table with normalized types
     distribution = (
         cleaned[selected_column]
         .fillna("Sin dato")
         .astype(str)
-        .value_counts()
+        .value_counts(dropna=False)
         .reset_index()
-        .rename(columns={"index": "Categoría", selected_column: "Registros"})
     )
-    if "count" in distribution.columns:
-        distribution = distribution.rename(columns={"count": "Registros"})
-    if selected_column in distribution.columns:
-        distribution = distribution.rename(columns={selected_column: "Categoría"})
+    distribution.columns = ["Categoría", "Frecuencia"]
+    distribution["Porcentaje"] = (
+        (distribution["Frecuencia"] / distribution["Frecuencia"].sum() * 100).round(2)
+    )
+    distribution = distribution.reset_index(drop=True)
 
     st.subheader(f"Distribución de {selected_column}")
-    if {"Categoría", "Registros"}.issubset(distribution.columns):
-        st.bar_chart(distribution.set_index("Categoría"))
-    st.dataframe(distribution, use_container_width=True)
+    if "Categoría" in distribution.columns and "Frecuencia" in distribution.columns:
+        try:
+            st.bar_chart(distribution.set_index("Categoría")["Frecuencia"])
+        except (ValueError, TypeError):
+            pass  # Chart may fail with certain types, but don't crash
+    
+    safe_dataframe(distribution, use_container_width=True)
 
     st.subheader("Resumen categórico")
     display_report = categorical_report.rename(
         columns={"column": "Columna", "value": "Valor", "records": "Registros"}
     )
-    st.dataframe(display_report, use_container_width=True)
+    safe_dataframe(display_report, use_container_width=True)
     return categorical_report
 
 
@@ -417,18 +441,18 @@ def display_descriptive_statistics(cleaned: pd.DataFrame, missing_report: pd.Dat
         if numeric.empty:
             st.info("No se detectaron variables numéricas.")
         else:
-            st.dataframe(numeric, use_container_width=True)
+            safe_dataframe(numeric, use_container_width=True)
     with tab_categorical:
         categorical = categorical_summary(cleaned, max_unique=10)
         if categorical.empty:
             st.info("No se detectaron variables categóricas.")
         else:
-            st.dataframe(
+            safe_dataframe(
                 categorical.rename(columns={"column": "Columna", "value": "Valor", "records": "Registros"}),
                 use_container_width=True,
             )
     with tab_missing:
-        st.dataframe(format_missing_table(missing_report), use_container_width=True)
+        safe_dataframe(format_missing_table(missing_report), use_container_width=True)
     with tab_cardinality:
         cardinality = pd.DataFrame(
             {
@@ -436,7 +460,7 @@ def display_descriptive_statistics(cleaned: pd.DataFrame, missing_report: pd.Dat
                 "Valores únicos": [cleaned[column].nunique(dropna=True) for column in cleaned.columns],
             }
         )
-        st.dataframe(cardinality, use_container_width=True)
+        safe_dataframe(cardinality, use_container_width=True)
 
 
 def display_crosstabs(cleaned: pd.DataFrame) -> dict[str, pd.DataFrame]:
@@ -476,7 +500,7 @@ def display_crosstabs(cleaned: pd.DataFrame) -> dict[str, pd.DataFrame]:
         table = crosstab_summary(enriched, row_col, col_col)
         rendered_tables[label] = table
         st.subheader(label)
-        st.dataframe(table, use_container_width=True)
+        safe_dataframe(table, use_container_width=True)
         st.download_button(
             f"Descargar {label.lower()}",
             data=make_csv_download(table.reset_index()),
